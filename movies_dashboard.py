@@ -18,7 +18,7 @@ st.title("🎬 Movie Ratings Dashboard")
 search_box_text = st.text_input("Please enter the movie title")
 
 if search_box_text:
-    found = data[data["title"].str.contains(search_term, case=False, na=False)]
+    found = data[data['title'].str.contains(search_term, case=False, na=False)]
 
     if not found.empty:
         match_list = found.drop_duplicates(subset="title", keep="first")
