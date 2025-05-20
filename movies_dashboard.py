@@ -12,11 +12,14 @@ def load_data():
     return df
 
 data = load_data()
-data.to_csv('merged_file.csv')
 
 st.title('🎬 Movie Ratings Dashboard')
 
+ratings_count = data.groupby('movieId').size().reset_index(name='ratings_count')
+
 drop_dups = data[['movieId', 'title', 'average_score', 'ratings_count']].drop_duplicates()
+
+drop_dups = pd.merge(drop_dups, ratings_count, on='movieId', how='left')
 
 top_10 = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 
