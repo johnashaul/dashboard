@@ -29,5 +29,15 @@ if search_box_text:
 
         st.subheader("Search Results")
         st.dataframe(match_df.reset_index(drop=True))
+        
+        fig, ax = plt.subplots()
+        ax.hist(movie_ratings, bins=5, edgecolor="black", color="#2c7fb8")
+        ax.set_xlabel("Rating")
+        ax.set_ylabel("Count")
+        ax.set_title(f"Rating Distribution for:\n{title}")
+        st.pyplot(fig)
+        
+        st.divider()
+        
     else:
         st.warning("No matching movie found.")
