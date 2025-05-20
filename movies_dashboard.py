@@ -36,14 +36,14 @@ if search_box_text:
         bm_genres = best_match['genres']
         bm_avg_rat = best_match['movie_avg_rating']
         
-        movie_ratings = found[found["movieId"] == movie_id]["rating"]
+        movie_ratings = found[found["movieId"] == bm_movie_id]["rating"]
         avg_rating = movie_ratings.mean()
 
         fig, ax = plt.subplots()
         ax.hist(movie_ratings, bins=5, edgecolor='black', color='#2c7fb8')
         ax.set_xlabel('Rating')
         ax.set_ylabel('Count')
-        ax.set_title(f'Rating Distribution for:\n{title}')
+        ax.set_title(f'Rating Distribution for:\n{bm_title}')
         st.pyplot(fig)
         
         st.divider()
