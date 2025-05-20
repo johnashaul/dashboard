@@ -19,8 +19,8 @@ st.write("Columns in loaded data:", data.columns.tolist())
 
 # Clean Top 10 display
 drop_dups = data[['movieId', 'title', 'movie_avg_rating']].drop_duplicates()
-top_10 = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
+top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 
 st.subheader("Top 10 Movies by Average Rating")
-for _, row in top_10.iterrows():
+for _, row in top_10_movies.iterrows():
     st.write(f"{row['title']}: {row['movie_avg_rating']:.2f}")
