@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 @st.cache_data
 def load_data():
     movies = pd.read_csv("movies.csv", encoding="ISO-8859-1", low_memory=False)
+    movies['genres'] = movies['genres'].str.split('|')
     ratings = pd.read_csv("rating.csv", encoding="ISO-8859-1")
     df = ratings.merge(movies, on='movieId')
     return df
