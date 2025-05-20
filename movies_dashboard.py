@@ -17,7 +17,7 @@ st.title('🎬 Movie Ratings Dashboard')
 
 ratings_count = data.groupby('movieId').size().reset_index(name='ratings_count')
 
-drop_dups = data[['movieId', 'title', 'average_score', 'ratings_count']].drop_duplicates()
+drop_dups = data[['movieId', 'title', 'average_score']].drop_duplicates()
 
 drop_dups = pd.merge(drop_dups, ratings_count, on='movieId', how='left')
 
