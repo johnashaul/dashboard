@@ -12,6 +12,7 @@ def load_data():
     return df
 
 data = load_data()
+data.to_csv("merged_file.csv")
 
 st.title("🎬 Movie Ratings Dashboard")
 
