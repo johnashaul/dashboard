@@ -23,7 +23,7 @@ top_10 = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 st.title("Top 10 Movies by Average Rating")
 
 for _, row in top_10_movies.iterrows():
-    st.write(f"{row['title']}: {row['movie_avg_rating']:.2f}: {row['ratings_count']}")
+    st.write(f"{row['title']}: {row['movie_avg_rating']:.2f}}")
 
 search_box_text = st.text_input('Please enter the movie title')
 
