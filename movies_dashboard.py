@@ -16,15 +16,14 @@ data.to_csv('merged_file.csv')
 
 st.title('🎬 Movie Ratings Dashboard')
 
-movie_stats = data.groupby(['movieId', 'title', 'genres']).agg(
-    rating_count=('rating', 'count'),
-    avg_rating=('rating', 'mean')
-).reset_index()
+drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
 
-st.subheader('Top 10 Rated Movies')
-top_movies = movie_stats.sort_values(by='avg_rating', ascending=False).head(10)
-st.dataframe(top_movies[['title', 'avg_rating', 'rating_count']])
+top_10 = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 
+st.title("Top 10 Movies by Average Rating")
+
+for _, row in top_10_movies.iterrows():
+    st.write(f"{row['title']}: {row['movie_avg_rating']:.2f}: {row['ratings_count']}")
 
 search_box_text = st.text_input('Please enter the movie title')
 
