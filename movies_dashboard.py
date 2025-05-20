@@ -16,7 +16,7 @@ data.to_csv('merged_file.csv')
 
 st.title('🎬 Movie Ratings Dashboard')
 
-drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
+drop_dups = data[['movieId', 'title', 'movie_avg_rating']].drop_duplicates()
 
 top_10 = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 
