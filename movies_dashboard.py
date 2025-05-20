@@ -39,7 +39,7 @@ if search_box_text:
         movie_ratings = found[found["movieId"] == bm_movie_id]["rating"]
         avg_rating = movie_ratings.mean()
 
-        fig, ax = plt.subplots(figsize=(5, 3))
+        fig, ax = plt.subplots(figsize=(3, 2))
         ax.hist(movie_ratings, bins=5, edgecolor='black', color='#2c7fb8')
         ax.set_xlabel('Rating')
         ax.set_ylabel('Count')
