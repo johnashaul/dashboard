@@ -25,7 +25,7 @@ if search_box_text:
         match_list = found.drop_duplicates(subset="title", keep="first")
 
         # Show only relevant columns
-        match_df = match_list[["title", "genres", "avg_rating"]]
+        match_df = match_list[["title", "genres", "movie_avg_rating"]]
 
         st.subheader("Search Results")
         st.dataframe(match_df.reset_index(drop=True))
