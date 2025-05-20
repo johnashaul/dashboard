@@ -31,7 +31,7 @@ if search_box_text:
         st.dataframe(match_df.reset_index(drop=True))
         
         fig, ax = plt.subplots()
-        ax.hist(movie_ratings, bins=5, edgecolor="black", color="#2c7fb8")
+        ax.hist(movie_avg_rating, bins=5, edgecolor="black", color="#2c7fb8")
         ax.set_xlabel("Rating")
         ax.set_ylabel("Count")
         ax.set_title(f"Rating Distribution for:\n{title}")
