@@ -11,22 +11,22 @@ def load_data():
     df = ratings.merge(movies, on='movieId')
     return df
 
-df = load_data()
+data = load_data()
 
 st.title("🎬 Movie Ratings Dashboard")
 
 search_box_text = st.text_input("Please enter the movie title")
 
 if search_box_text:
-    found = movies_df[movies_df["title"].str.contains(search_term, case=False, na=False)]
+    found = data[data["title"].str.contains(search_term, case=False, na=False)]
 
     if not found.empty:
         match_list = found.drop_duplicates(subset="title", keep="first")
 
         # Show only relevant columns
-        display_df = match_list[["title", "genres", "avg_rating"]]
+        match_df = match_list[["title", "genres", "avg_rating"]]
 
         st.subheader("Search Results")
-        st.dataframe(display_df.reset_index(drop=True))
+        st.dataframe(match_df.reset_index(drop=True))
     else:
         st.warning("No matching movie found.")
