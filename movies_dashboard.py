@@ -10,6 +10,7 @@ def load_data():
     df = ratings.merge(movies, on='movieId')
     return df
 
+data_load_state = st.text('Loading data...')
 df = load_data()
 data_load_state.text("Done! (using st.cache_data)")
 
