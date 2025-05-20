@@ -16,14 +16,14 @@ data = load_data()
 st.title('🎬 Movie Ratings Dashboard')
 
 
-drop_dups = data[['movieId', 'title', 'movie_avg_rating']].drop_duplicates()
+#drop_dups = data[['movieId', 'title', 'movie_avg_rating']].drop_duplicates()
 
-top_10 = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
+#top_10 = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 
 st.title("Top 10 Movies by Average Rating")
 
-for _, row in top_10.iterrows():
-    st.write(f"{row['title']}: {row['movie_avg_rating']:.2f}}")
+#for _, row in top_10.iterrows():
+#    st.write(f"{row['title']}: {row['movie_avg_rating']:.2f}}")
 
 search_box_text = st.text_input('Please enter the movie title')
 
