@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Load your datasets
 @st.cache_data
 def load_data():
-    movies = pd.read_csv("movies.csv", encoding="ISO-8859-1", low_memory=False)
+    movies = pd.read_csv("movies_ar.csv", encoding="ISO-8859-1", low_memory=False)
     movies['genres'] = movies['genres'].str.split('|')
     ratings = pd.read_csv("rating.csv", encoding="ISO-8859-1")
     df = ratings.merge(movies, on='movieId')
@@ -15,10 +15,18 @@ df = load_data()
 
 st.title("🎬 Movie Ratings Dashboard")
 
-search_query = st.text_input("🔍 Search for a movie title")
+search_box_text = st.text_input("Please enter the movie title")
 
-# Filter your DataFrame
-if search_query:
-    search_results = df[df['title'].str.contains(search_query, case=False, na=False)]
-    st.write(f"Found {len(search_results)} matching movies:")
-    st.dataframe(search_results[['title', 'genres', 'rating']].head(10))
+if search_box_text:
+    found = movies_df[movies_df["title"].str.contains(search_term, case=False, na=False)]
+
+    if not found.empty:
+        match_list = found.drop_duplicates(subset="title", keep="first")
+
+        # Show only relevant columns
+        display_df = match_list[["title", "genres", "avg_rating"]]
+
+        st.subheader("Search Results")
+        st.dataframe(display_df.reset_index(drop=True))
+    else:
+        st.warning("No matching movie found.")
