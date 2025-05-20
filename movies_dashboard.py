@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Load your datasets
 @st.cache_data
 def load_data():
-    ratings = pd.read_csv("ratings.csv")  # Adjust path as needed
+    ratings = pd.read_csv("rating.csv")  # Adjust path as needed
     movies = pd.read_csv("movies.csv")
     df = ratings.merge(movies, on='movieId')
     return df
