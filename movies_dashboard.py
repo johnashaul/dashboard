@@ -158,8 +158,10 @@ if  search_box_text:
             st.subheader(f"Ratings for {bm_title}")
             fig, ax = plt.subplots(figsize=(4, 0.2))
             ax.hist(movie_ratings, bins=5, edgecolor='black')
-            ax.set_xlabel('Rating')
-            ax.set_ylabel('Count')
+            ax.set_xlabel('Rating', fontsize=8)
+            ax.set_ylabel('Count', fontsize=8)
+            ax.tick_params(axis='x', labelsize=6)
+            ax.tick_params(axis='y', labelsize=6)
             st.pyplot(fig)
 
         st.divider()
