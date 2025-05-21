@@ -62,7 +62,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("🥇 Top 10 Overall")
-    st.table(top10_all.reset_index(drop=True))
+    st.table(top_10_movies.reset_index(drop=True))
 
 with col2:
     header = "🎭 Top 10 by Genre" if selected_genres else "🎭 No Genre Filter Applied"
