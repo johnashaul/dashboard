@@ -130,11 +130,6 @@ if  search_box_text:
     if  not found.empty:
         match_list = found.drop_duplicates(subset='title', keep='first')
 
-        # Show only relevant columns
-        match_df = match_list[['title', 'genres', 'movie_avg_rating', 'ratings_count']]
-        st.subheader('Search Results')
-        st.dataframe(match_df.reset_index(drop=True))
-
         # Get the movie that most closely matches the search string
         best_match = match_list.iloc[0]
         bm_movie_id = best_match['movieId']
@@ -146,13 +141,27 @@ if  search_box_text:
         movie_ratings = found[found["movieId"] == bm_movie_id]["rating"]
         avg_rating = movie_ratings.mean()
 
+        col_table, col_hist = st.columns([2, 1])
+
+        with col_table:
+            match_df = match_list[['title', 'genres', 'movie_avg_rating', 'ratings_count]].rename(columns={
+                'title': 'Movie Title',
+                'genres': 'Genres',
+                'movie_avg_rating': 'Avg Rating',
+                'ratings_count': 'No of Ratings'
+            })
+            st.subheader("Search Results")
+            st.dataframe(match_df.reset_index(drop=True))
+            
         # Plot histogram of ratings
-        fig, ax = plt.subplots(figsize=(3, 2))
-        ax.hist(movie_ratings, bins=5, edgecolor='black', color='#2c7fb8')
-        ax.set_xlabel('Rating')
-        ax.set_ylabel('Count')
-        ax.set_title(f'Rating Distribution for:\n{bm_title}')
-        st.pyplot(fig)
+        with col_hist:
+            st.subheader(f"Ratings for {bm_title}")
+            fig, ax = plt.subplots(figsize=(4, 3))
+            ax.hist(movie_ratings, bins=5, edgecolor='black')
+            ax.set_xlabel('Rating')
+            ax.set_ylabel('Count')
+            ax.set_title(f'Avg: {avg_rating:.2f}')
+            st.pyplot(fig)
 
         st.divider()
 
