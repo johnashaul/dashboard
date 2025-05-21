@@ -45,12 +45,13 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
-min_ratings = st.slider(
-    "Minimum Number of Ratings",
-    min_value=0,
-    max_value=100,
-    value=50
-)
+col1, col2 = st.columns([3, 9])
+with col1:
+    min_ratings = st.slider(
+        "Minimum Number of Ratings",
+        0, 100, 50
+    )
+
 gt_min_df = data[data['ratings_count'] >= min_ratings]
 
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
