@@ -14,7 +14,6 @@ def load_recs():
     return pd.read_csv("top30_recs.csv")  
 
 data = load_data()
-recs_df = load_recs()
 
 st.title('🎬 Movie Ratings Dashboard')
 
@@ -68,7 +67,7 @@ if search_box_text:
 
         st.divider()
 
-        recs_df = load_recommendations()
+        recs_df = load_recs()
         rec_row = recs_df[recs_df['movieId'] == bm_movie_id]
 
         if not rec_row.empty:
