@@ -39,7 +39,7 @@ search_box_text = st.text_input('Please enter the movie title')
 if search_box_text:
     found = data[data['title'].str.contains(search_box_text, case=False, na=False)]
 
-    if not found.empty:
+    if  not found.empty:
         match_list = found.drop_duplicates(subset='title', keep='first')
 
         # Show only relevant columns
@@ -72,10 +72,9 @@ if search_box_text:
     else:
         st.warning('No matching movie found.')
         
- rec_row = recs_df[recs_df['movieId'] == bm_movie_id]
+rec_row = recs_df[recs_df['movieId'] == bm_movie_id]
  
- if not rec_row.empty:
-    # Extract top10 columns and flatten to list of IDs
+if  not rec_row.empty:
     top10_ids = rec_row.iloc[0, 1:11].tolist()
 
     top10_movies = data[data['movieId'].isin(top10_ids)][['movieId', 'title']].drop_duplicates()
