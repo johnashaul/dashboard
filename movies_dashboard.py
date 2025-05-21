@@ -22,8 +22,13 @@ st.write(data['genres'].apply(type).value_counts())
 
 data['genres'] = data['genres'].apply(lambda x: x if isinstance(x, list) else str(x).split('|'))
 
+if  sel_genres:
+    genre_filtered = data[data['genres'].apply(lambda g_list: all(g in g_list for g in sel_genres))]
+else:
+    genre_filtered = data
+
 top10_for_genres = (
-    filtered_recs
+    genre_filtered
       .drop_duplicates(subset=['movieId'])
       [['movieId', 'title', 'genres', 'movie_avg_rating']]
       .sort_values(by='movie_avg_rating', ascending=False)
@@ -33,10 +38,6 @@ all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_l
 
 sel_genres = st.multiselect('Filter by Genre(s)', all_genres)
 
-if sel_genres:
-    genre_filtered = data[data['genres'].apply(lambda g_list: all(g in g_list for g in sel_genres))]
-else:
-    genre_filtered = data
 
 
 # Display top 10 filtered movies
