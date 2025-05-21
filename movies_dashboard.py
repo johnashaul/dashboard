@@ -17,6 +17,27 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
+all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
+sel_genres = st.multiselect('Filter by Genre(s)', all_genres)
+if sel_genres:
+    filtered_recs = data[data['genres'].apply(lambda g_list: all(g in g_list for g in selected_genres))]
+else:
+    filtered_recs = data
+    
+top10_for_genres = filtered_recs[['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates()
+top10_for_genres = top10_for_genres.sort_values(by='movie_avg_rating', ascending=False).head(10)
+top10_for_genres['movie_avg_rating'] = top10_for_genres['movie_avg_rating'].round(2)
+
+top10_for_genres['Genres'] = top10_for_genres['genres'].apply(lambda g: ', '.join(g) if isinstance(g, list) else g)
+
+st.subheader('Top 10 Movies Matching Genre Filter')
+st.table(
+    top10_filtered[['title', 'Genres', 'movie_avg_rating']].rename(columns={
+        'title': 'Movie Title',
+        'movie_avg_rating': 'Average Rating'
+    }).reset_index(drop=True)
+)
+
 min_ratings = st.sidebar.slider("Minimum Number of Ratings", 0, 100, 50)
 data = data[data['ratings_count'] >= min_ratings]
 
@@ -72,15 +93,17 @@ if search_box_text:
 
         if not rec_row.empty:
             top10_ids = rec_row.iloc[0, 1:11].tolist()
-            top10_movies = data[data['movieId'].isin(top10_ids)][['movieId', 'title']].drop_duplicates()
+            top10_movies = data[data['movieId'].isin(top10_ids)][['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates()
             top10_movies['rank'] = top10_movies['movieId'].apply(lambda x: top10_ids.index(x) + 1)
             top10_movies = top10_movies.sort_values('rank')
 
             st.subheader(f"Top 10 Recommendations for: {bm_title}")
             st.table(
-                top10_movies[['rank', 'title']].rename(columns={
+                top10_movies[['rank', 'title', 'genres', 'movie_avg_rating']].rename(columns={
                     'rank': 'Rank',
                     'title': 'Recommended Movie'
+                    'genres': 'Genres',
+                    'movie_avg_rating': 'Average Rating'
                 }).reset_index(drop=True)
             )
         else:
