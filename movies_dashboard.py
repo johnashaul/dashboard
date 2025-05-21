@@ -66,7 +66,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Put spacer to align overall table with genre table
-    st.markdown("<div style='height:6em'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:5.8em'></div>", unsafe_allow_html=True)
 
     # place top 10 overall movies on left
     top10_movies = (
