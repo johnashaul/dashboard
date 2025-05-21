@@ -17,6 +17,13 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
+min_ratings = st.slider(
+    "Minimum Number of Ratings",
+    min_value=0,
+    max_value=100,
+    value=50
+)
+
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
 
 sel_genres = st.multiselect('Filter by Genre(s)', all_genres)
@@ -29,7 +36,7 @@ else:
 top10_for_genres = (
     genre_filtered
       .drop_duplicates(subset=['movieId'])
-      [['movieId', 'title', 'genres', 'movie_avg_rating']]
+      [['movieId', 'title', 'genres', 'movie_avg_rating', 'ratings_count']]
       .sort_values(by='movie_avg_rating', ascending=False)
       .head(10)
 )
@@ -37,15 +44,13 @@ top10_for_genres['movie_avg_rating'] = top10_for_genres['movie_avg_rating'].roun
 
 top10_for_genres['Genres'] = top10_for_genres['genres'].apply(lambda g: ', '.join(g) if isinstance(g, list) else g)
 
-st.subheader('Top 10 Movies Matching Genre Filter')
-st.table(
-    top10_for_genres[['title', 'Genres', 'movie_avg_rating']].rename(columns={
-        'title': 'Movie Title',
-        'movie_avg_rating': 'Average Rating'
-    }).reset_index(drop=True)
-)
+top10_for_genres = top10_for_genres.rename(columns={
+    'title': 'Movie Title',
+    'genres': 'Genres',
+    'movie_avg_rating': 'Avg Rating',
+    'ratings_count': 'No. of Ratings'
+})
 
-min_ratings = st.sidebar.slider("Minimum Number of Ratings", 0, 100, 50)
 data = data[data['ratings_count'] >= min_ratings]
 
 drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
@@ -53,8 +58,16 @@ top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).he
 top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
 
 
-st.subheader("Top 10 Movies by Average Rating")
-st.dataframe(top_10_movies.reset_index(drop=True))
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("🥇 Top 10 Overall")
+    st.table(top10_all.reset_index(drop=True))
+
+with col2:
+    header = "🎭 Top 10 by Genre" if selected_genres else "🎭 No Genre Filter Applied"
+    st.subheader(header)
+    st.table(top10_genre.reset_index(drop=True))
 
 search_box_text = st.text_input('Please enter the movie title')
 
