@@ -14,11 +14,10 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
-# Debug check
-st.write("Columns in loaded data:", data.columns.tolist())
+
 
 # Clean Top 10 display
-drop_dups = data[['movieId', 'title', 'movie_avg_rating']].drop_duplicates()
+drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
 top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 
 st.subheader("Top 10 Movies by Average Rating")
