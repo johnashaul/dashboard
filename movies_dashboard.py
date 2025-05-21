@@ -160,7 +160,6 @@ if  search_box_text:
             ax.hist(movie_ratings, bins=5, edgecolor='black')
             ax.set_xlabel('Rating')
             ax.set_ylabel('Count')
-            ax.set_title(f'Avg: {avg_rating:.2f}')
             st.pyplot(fig)
 
         st.divider()
