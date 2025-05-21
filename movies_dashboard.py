@@ -66,7 +66,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Put spacer to align overall table with genre table
-    st.markdown("<div style='height:5em'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:5.3em'></div>", unsafe_allow_html=True)
 
     # place top 10 overall movies on left
     top10_movies = (
@@ -120,7 +120,9 @@ with col2:
     st.table(top10_genre.reset_index(drop=True))
 
 # Add search box for movie title
-search_box_text = st.text_input('Please enter the movie title')
+col1, col2 = st.columns([4, 8])
+with col1:
+    search_box_text = st.text_input('Please enter the movie title')
 
 if  search_box_text:
     found = data[data['title'].str.contains(search_box_text, case=False, na=False)]
