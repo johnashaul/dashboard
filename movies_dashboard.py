@@ -17,10 +17,15 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
-data['genres'] = data['genres'].apply(lambda x: x if isinstance(x, list) else [])
+data['genres'] = data['genres'].apply(lambda x: x if isinstance(x, list) else str(x).split('|'))
 
-# Extract all unique genres
-all_genres = sorted({genre for sublist in data['genres'] for genre in sublist})
+all_genres_set = set()
+for genre_list in data['genres']:
+    for genre in genre_list:
+        if isinstance(genre, str):
+            all_genres_set.add(genre.strip())
+
+all_genres = sorted(all_genres_set)
 
 # Multiselect widget
 selected_genres = st.multiselect('Filter by Genre(s)', all_genres)
