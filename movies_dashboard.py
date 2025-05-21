@@ -61,11 +61,11 @@ top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("🥇 Top 10 Overall")
+    st.subheader("Top 10 Movies Overall")
     st.table(top_10_movies.reset_index(drop=True))
 
 with col2:
-    header = "🎭 Top 10 by Genre" if selected_genres else "🎭 No Genre Filter Applied"
+    header = "Top 10 by Genre" if sel_genres else "🎭 No Genre Filter Applied"
     st.subheader(header)
     st.table(top10_genre.reset_index(drop=True))
 
