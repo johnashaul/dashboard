@@ -2,6 +2,26 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+st.markdown("""
+    <style>
+      html, body, [class*="css"]  {
+        font-size: 0.9rem !important;
+      }
+      .stApp h1 {
+        font-size: 1.5rem !important;
+      }
+      .stApp h2 {
+        font-size: 1.25rem !important;
+      }
+      .stTable table {
+        font-size: 0.8rem !important;
+      }
+      .stDataFrame div[data-testid="stMarkdownContainer"] span {
+        font-size: 0.8rem !important;
+      }
+    </style>
+""", unsafe_allow_html=True)
+
 @st.cache_data
 def load_data():
     movies = pd.read_csv('movies_ar.csv', encoding='ISO-8859-1', low_memory=False)
@@ -37,6 +57,9 @@ top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
 col1, col2 = st.columns(2)
 
 with col1:
+    # Put spacer to align overall table with genre table
+    st.markdown("<div style='height:3em'></div>", unsafe_allow_html=True)
+
     # place top 10 overall movies on left
     top10_movies = (
         gt_min_df
@@ -53,8 +76,6 @@ with col1:
     })
     st.subheader("Top 10 Movies Overall")
     st.table(top10_movies.reset_index(drop=True))
-    st.subheader("Top 10 Movies Overall")
-    st.table(top_10_movies.reset_index(drop=True))
 
 with col2:
     sel_genres = st.multiselect("Filter by Genre(s)", all_genres)
