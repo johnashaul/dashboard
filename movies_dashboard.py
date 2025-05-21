@@ -17,33 +17,27 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
-st.write("Genres column types:")
-st.write(data['genres'].apply(type).value_counts())
+all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
 
-data['genres'] = data['genres'].apply(lambda x: x if isinstance(x, list) else str(x).split('|'))
+sel_genres = st.multiselect('Filter by Genre(s)', all_genres)
 
 if  sel_genres:
     genre_filtered = data[data['genres'].apply(lambda g_list: all(g in g_list for g in sel_genres))]
 else:
     genre_filtered = data
 
-top10_for_genres = (
-    genre_filtered
-      .drop_duplicates(subset=['movieId'])
-      [['movieId', 'title', 'genres', 'movie_avg_rating']]
-      .sort_values(by='movie_avg_rating', ascending=False)
-      .head(10)
-)
-all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
+top10_filtered = genre_filtered.drop_duplicates(subset=['movieId'])
+      [['movieId', 'title', 'genres', 'movie_avg_rating']])
+top10_filtered = top10_filtered.sort_values(by='movie_avg_rating', ascending=False).head(10)
+top10_filtered['movie_avg_rating'] = top10_filtered['movie_avg_rating'].round(2)
 
-sel_genres = st.multiselect('Filter by Genre(s)', all_genres)
+# 🧾 Format genres nicely
+top10_filtered['Genres'] = top10_filtered['genres'].apply(lambda g: ', '.join(g) if isinstance(g, list) else g)
 
-
-
-# Display top 10 filtered movies
+# 📊 Display table
 st.subheader('Top 10 Movies Matching Genre Filter')
 st.table(
-    top10_for_genres[['title', 'Genres', 'movie_avg_rating']].rename(columns={
+    top10_filtered[['title', 'Genres', 'movie_avg_rating']].rename(columns={
         'title': 'Movie Title',
         'movie_avg_rating': 'Average Rating'
     }).reset_index(drop=True)
