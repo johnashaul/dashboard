@@ -20,7 +20,7 @@ st.title('🎬 Movie Ratings Dashboard')
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
 sel_genres = st.multiselect('Filter by Genre(s)', all_genres)
 if sel_genres:
-    filtered_recs = data[data['genres'].apply(lambda g_list: all(g in g_list for g in selected_genres))]
+    filtered_recs = data[data['genres'].apply(lambda g_list: all(g in g_list for g in sel_genres))]
 else:
     filtered_recs = data
     
