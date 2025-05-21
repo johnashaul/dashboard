@@ -39,55 +39,53 @@ search_box_text = st.text_input('Please enter the movie title')
 if search_box_text:
     found = data[data['title'].str.contains(search_box_text, case=False, na=False)]
 
-    if  not found.empty:
+    if not found.empty:
         match_list = found.drop_duplicates(subset='title', keep='first')
 
         # Show only relevant columns
         match_df = match_list[['title', 'genres', 'movie_avg_rating']]
-
         st.subheader('Search Results')
         st.dataframe(match_df.reset_index(drop=True))
-        
-        # get the movie that most closely matches the search string
+
+        # Get the movie that most closely matches the search string
         best_match = match_list.iloc[0]
         bm_movie_id = best_match['movieId']
         bm_title = best_match['title']
         bm_genres = best_match['genres']
         bm_avg_rat = best_match['movie_avg_rating']
-        
-        # get ratings for movie
+
+        # Get ratings for movie
         movie_ratings = found[found["movieId"] == bm_movie_id]["rating"]
         avg_rating = movie_ratings.mean()
 
-        # plot histogram of ratings for movie
+        # Plot histogram of ratings
         fig, ax = plt.subplots(figsize=(3, 2))
         ax.hist(movie_ratings, bins=5, edgecolor='black', color='#2c7fb8')
         ax.set_xlabel('Rating')
         ax.set_ylabel('Count')
         ax.set_title(f'Rating Distribution for:\n{bm_title}')
         st.pyplot(fig)
-        
+
         st.divider()
-        
+
+        recs_df = load_recommendations()
+        rec_row = recs_df[recs_df['movieId'] == bm_movie_id]
+
+        if not rec_row.empty:
+            top10_ids = rec_row.iloc[0, 1:11].tolist()
+            top10_movies = data[data['movieId'].isin(top10_ids)][['movieId', 'title']].drop_duplicates()
+            top10_movies['rank'] = top10_movies['movieId'].apply(lambda x: top10_ids.index(x) + 1)
+            top10_movies = top10_movies.sort_values('rank')
+
+            st.subheader(f"Top 10 Recommendations for: {bm_title}")
+            st.table(
+                top10_movies[['rank', 'title']].rename(columns={
+                    'rank': 'Rank',
+                    'title': 'Recommended Movie'
+                }).reset_index(drop=True)
+            )
+        else:
+            st.warning("No recommendations found for this movie.")
+
     else:
         st.warning('No matching movie found.')
-        
-rec_row = recs_df[recs_df['movieId'] == bm_movie_id]
- 
-if  not rec_row.empty:
-    top10_ids = rec_row.iloc[0, 1:11].tolist()
-
-    top10_movies = data[data['movieId'].isin(top10_ids)][['movieId', 'title']].drop_duplicates()
-
-    top10_movies['rank'] = top10_movies['movieId'].apply(lambda x: top10_ids.index(x) + 1)
-    top10_movies = top10_movies.sort_values('rank')
-
-    st.subheader(f"Top 10 Recommendations for: {bm_title}")
-    st.table(
-        top10_movies[['rank', 'title']].rename(columns={
-            'rank': 'Rank',
-            'title': 'Recommended Movie'
-        }).reset_index(drop=True)
-    )
-else:
-    st.warning("No recommendations found for this movie.")
