@@ -14,8 +14,6 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
-
-
 # Clean Top 10 display
 drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
 top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
