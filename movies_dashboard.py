@@ -18,6 +18,8 @@ recs_df = load_recs()
 
 st.title('🎬 Movie Ratings Dashboard')
 
+min_ratings = st.sidebar.slider("Minimum Number of Ratings", 0, 100, 50)
+data = data[data['ratings_count'] >= min_ratings]
 
 drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
 top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
