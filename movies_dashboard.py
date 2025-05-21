@@ -22,26 +22,15 @@ st.write(data['genres'].apply(type).value_counts())
 
 data['genres'] = data['genres'].apply(lambda x: x if isinstance(x, list) else str(x).split('|'))
 
-def clean_genres(val):
-    if isinstance(val, list):
-        return val
-    elif pd.isna(val):
-        return []
-    else:
-        return str(val).split('|')
+genre_list = [
+    "Action", "Adventure", "Animation", "Children", "Comedy", "Crime",
+    "Documentary", "Drama", "Fantasy", "Film-Noir", "Horror", "Musical",
+    "Mystery", "Romance", "Sci-Fi", "Thriller", "War", "Western"
+]
 
-data['genres'] = data['genres'].apply(clean_genres)
+sel_genres = st.multiselect('Filter by Genre(s)', genre_list)
 
-# Extract unique genres safely
-all_genres = sorted({genre.strip() for genres in data['genres'] for genre in genres})
-
-# Multiselect widget
-selected_genres = st.multiselect('Filter by Genre(s)', all_genres)
-
-selected_genres = st.multiselect('Filter by Genre(s)', all_genres)
-
-if selected_genres:
-    # Match all selected genres (AND logic)
+if sel_genres:
     filtered_recs = data[data['genres'].apply(lambda g_list: all(g in g_list for g in selected_genres))]
 else:
     filtered_recs = data
