@@ -36,9 +36,6 @@ else:
     filtered_recs = data
 
 top10_for_genres = (
-    filtered_recs[['movieId', 'title', 'genres', 'movie_avg_rating']]
-    .drop_duplicates()
-    .sort_values(by='movie_avg_rating', ascending=False)
-    .head(10)
+    filtered_recs[['movieId', 'title', 'genres', 'movie_avg_rating']].head(10)
 )
 
