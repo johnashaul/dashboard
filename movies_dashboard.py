@@ -23,33 +23,9 @@ min_ratings = st.slider(
     max_value=100,
     value=50
 )
+gt_min_df = data[data['ratings_count'] >= min_ratings]
 
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
-
-sel_genres = st.multiselect('Filter by Genre(s)', all_genres)
-
-if  sel_genres:
-    genre_filtered = data[data['genres'].apply(lambda g_list: all(g in g_list for g in sel_genres))]
-else:
-    genre_filtered = data
-
-top10_for_genres = (
-    genre_filtered
-      .drop_duplicates(subset=['movieId'])
-      [['movieId', 'title', 'genres', 'movie_avg_rating', 'ratings_count']]
-      .sort_values(by='movie_avg_rating', ascending=False)
-      .head(10)
-)
-top10_for_genres['movie_avg_rating'] = top10_for_genres['movie_avg_rating'].round(2)
-
-top10_for_genres['Genres'] = top10_for_genres['genres'].apply(lambda g: ', '.join(g) if isinstance(g, list) else g)
-
-top10_for_genres = top10_for_genres.rename(columns={
-    'title': 'Movie Title',
-    'genres': 'Genres',
-    'movie_avg_rating': 'Avg Rating',
-    'ratings_count': 'No. of Ratings'
-})
 
 data = data[data['ratings_count'] >= min_ratings]
 
@@ -61,24 +37,70 @@ top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
 col1, col2 = st.columns(2)
 
 with col1:
+    # place top 10 overall movies on left
+    top10_movies = (
+        gt_min_df
+          .drop_duplicates(subset=['movieId'])
+          [['title', 'genres', 'movie_avg_rating', 'ratings_count']]
+          .sort_values(by='movie_avg_rating', ascending=False)
+          .head(10)
+    )
+    top10_movies['movie_avg_rating'] = top10_movies['movie_avg_rating'].round(2)
+    top10_movies = top10_movies.rename(columns={
+        'title': 'Movie Title',
+        'movie_avg_rating': 'Avg Rating',
+        'ratings_count': 'No. of Ratings'
+    })
+    st.subheader("Top 10 Movies Overall")
+    st.table(top10_movies.reset_index(drop=True))
     st.subheader("Top 10 Movies Overall")
     st.table(top_10_movies.reset_index(drop=True))
 
 with col2:
-    header = "Top 10 by Genre" if sel_genres else "🎭 No Genre Filter Applied"
+    sel_genres = st.multiselect("Filter by Genre(s)", all_genres)
+
+    if  sel_genres:
+        df_genre = gt_min_df[
+            gt_min_df['genres'].apply(lambda gl: all(g in gl for g in sel_genres))
+        ]
+    else:
+        df_genre = gt_min_df
+
+    top10_genre = (
+        df_genre
+          .drop_duplicates(subset=['movieId'])
+          [['title', 'genres', 'movie_avg_rating', 'ratings_count']]
+          .sort_values(by='movie_avg_rating', ascending=False)
+          .head(10)
+    )
+    top10_genre['movie_avg_rating'] = top10_genre['movie_avg_rating'].round(2)
+    top10_genre['genres'] = top10_genre['genres'].apply(lambda gl: ', '.join(gl))
+    top10_genre = top10_genre.rename(columns={
+        'title': 'Movie Title',
+        'genres': 'Genres',
+        'movie_avg_rating': 'Avg Rating',
+        'ratings_count': 'No. of Ratings'
+    })
+
+    header = (
+        f"Top 10 Matching: {', '.join(sel_genres)}"
+        if  sel_genres else
+        "Top 10 Movies - No Genre Filter Applied"
+    )
     st.subheader(header)
     st.table(top10_genre.reset_index(drop=True))
 
+# Add search box for movie title
 search_box_text = st.text_input('Please enter the movie title')
 
-if search_box_text:
+if  search_box_text:
     found = data[data['title'].str.contains(search_box_text, case=False, na=False)]
 
-    if not found.empty:
+    if  not found.empty:
         match_list = found.drop_duplicates(subset='title', keep='first')
 
         # Show only relevant columns
-        match_df = match_list[['title', 'genres', 'movie_avg_rating']]
+        match_df = match_list[['title', 'genres', 'movie_avg_rating', 'ratings_count']]
         st.subheader('Search Results')
         st.dataframe(match_df.reset_index(drop=True))
 
