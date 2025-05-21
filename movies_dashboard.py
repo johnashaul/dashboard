@@ -2,8 +2,16 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+st.set_page_config(layout="wide")
+
 st.markdown("""
     <style>
+      /* make the main block container full-width */
+      .reportview-container .main .block-container {
+        max-width: 100% !important;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
       html, body, [class*="css"]  {
         font-size: 0.9rem !important;
       }
@@ -58,7 +66,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Put spacer to align overall table with genre table
-    st.markdown("<div style='height:3em'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:6em'></div>", unsafe_allow_html=True)
 
     # place top 10 overall movies on left
     top10_movies = (
