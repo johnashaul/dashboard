@@ -6,26 +6,25 @@ st.set_page_config(layout="wide")
 
 st.markdown("""
     <style>
-      /* make the main block container full-width */
       .reportview-container .main .block-container {
         max-width: 100% !important;
         padding-left: 2rem;
         padding-right: 2rem;
       }
       html, body, [class*="css"]  {
-        font-size: 0.9rem !important;
+        font-size: 0.8rem !important;
       }
       .stApp h1 {
-        font-size: 1.5rem !important;
+        font-size: 1.3rem !important;
       }
       .stApp h2 {
-        font-size: 1.25rem !important;
+        font-size: 1.1rem !important;
       }
       .stTable table {
-        font-size: 0.8rem !important;
+        font-size: 0.7rem !important;
       }
       .stDataFrame div[data-testid="stMarkdownContainer"] span {
-        font-size: 0.8rem !important;
+        font-size: 0.7rem !important;
       }
     </style>
 """, unsafe_allow_html=True)
@@ -67,7 +66,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     # Put spacer to align overall table with genre table
-    st.markdown("<div style='height:5.6em'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height:5em'></div>", unsafe_allow_html=True)
 
     # place top 10 overall movies on left
     top10_movies = (
