@@ -156,7 +156,7 @@ if  search_box_text:
         # Plot histogram of ratings
         with col_hist:
             st.subheader(f"Ratings for {bm_title}")
-            fig, ax = plt.subplots(figsize=(4, 0.4))
+            fig, ax = plt.subplots(figsize=(4, 0.8))
             ax.hist(movie_ratings, bins=5, edgecolor='black')
             ax.set_ylabel('Count', fontsize=6)
             ax.tick_params(axis='x', labelsize=4)
