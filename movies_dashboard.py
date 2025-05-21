@@ -35,10 +35,8 @@ top10_for_genres = (
 )
 top10_for_genres['movie_avg_rating'] = top10_for_genres['movie_avg_rating'].round(2)
 
-# 🧾 Format genres nicely
 top10_for_genres['Genres'] = top10_for_genres['genres'].apply(lambda g: ', '.join(g) if isinstance(g, list) else g)
 
-# 📊 Display table
 st.subheader('Top 10 Movies Matching Genre Filter')
 st.table(
     top10_for_genres[['title', 'Genres', 'movie_avg_rating']].rename(columns={
@@ -54,14 +52,6 @@ drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop
 top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
 
-top10_for_genres = (
-    filtered_recs[['movieId', 'title', 'genres', 'movie_avg_rating']]
-    .drop_duplicates()
-    .sort_values(by='movie_avg_rating', ascending=False)
-    .head(10)
-)
-top10_for_genres['movie_avg_rating'] = top10_for_genres['movie_avg_rating'].round(2)
-top10_for_genres['Genres'] = top10_for_genres['genres'].apply(lambda g: ', '.join(g))
 
 st.subheader("Top 10 Movies by Average Rating")
 st.dataframe(top_10_movies.reset_index(drop=True))
