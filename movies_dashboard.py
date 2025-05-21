@@ -144,7 +144,7 @@ if  search_box_text:
         col_table, col_hist = st.columns([2, 1])
 
         with col_table:
-            match_df = match_list[['title', 'genres', 'movie_avg_rating', 'ratings_count]].rename(columns={
+            match_df = match_list[['title', 'genres', 'movie_avg_rating', 'ratings_count']].rename(columns={
                 'title': 'Movie Title',
                 'genres': 'Genres',
                 'movie_avg_rating': 'Avg Rating',
