@@ -101,7 +101,7 @@ if search_box_text:
             st.table(
                 top10_movies[['rank', 'title', 'genres', 'movie_avg_rating']].rename(columns={
                     'rank': 'Rank',
-                    'title': 'Recommended Movie'
+                    'title': 'Recommended Movie',
                     'genres': 'Genres',
                     'movie_avg_rating': 'Average Rating'
                 }).reset_index(drop=True)
