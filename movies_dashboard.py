@@ -26,9 +26,13 @@ if  sel_genres:
 else:
     genre_filtered = data
 
-top10_filtered = genre_filtered.drop_duplicates(subset=['movieId'])
-      [['movieId', 'title', 'genres', 'movie_avg_rating']])
-top10_filtered = top10_filtered.sort_values(by='movie_avg_rating', ascending=False).head(10)
+top10_for_genres = (
+    filtered_recs
+      .drop_duplicates(subset=['movieId'])
+      [['movieId', 'title', 'genres', 'movie_avg_rating']]
+      .sort_values(by='movie_avg_rating', ascending=False)
+      .head(10)
+)
 top10_filtered['movie_avg_rating'] = top10_filtered['movie_avg_rating'].round(2)
 
 # 🧾 Format genres nicely
