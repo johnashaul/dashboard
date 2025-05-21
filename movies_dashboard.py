@@ -17,6 +17,9 @@ data = load_data()
 
 st.title('🎬 Movie Ratings Dashboard')
 
+st.write("Genres column types:")
+st.write(data['genres'].apply(type).value_counts())
+
 data['genres'] = data['genres'].apply(lambda x: x if isinstance(x, list) else str(x).split('|'))
 
 def clean_genres(val):
@@ -35,8 +38,10 @@ all_genres = sorted({genre.strip() for genres in data['genres'] for genre in gen
 # Multiselect widget
 selected_genres = st.multiselect('Filter by Genre(s)', all_genres)
 
-# Filter data based on selected genres
+selected_genres = st.multiselect('Filter by Genre(s)', all_genres)
+
 if selected_genres:
+    # Match all selected genres (AND logic)
     filtered_recs = data[data['genres'].apply(lambda g_list: all(g in g_list for g in selected_genres))]
 else:
     filtered_recs = data
