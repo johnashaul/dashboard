@@ -86,7 +86,12 @@ with col1:
         'ratings_count': 'No. of Ratings'
     })
     st.subheader("Top 10 Movies Overall")
-    st.table(top10_movies.reset_index(drop=True).style.hide_index)
+    md_top10 = (
+        top10_movies[['Movie Title','Genres','Average Rating']]
+        .reset_index(drop=True)
+        .to_markdown(index=False)
+    )
+    st.markdown(md_top10, unsafe_allow_html=True)
 
 with col2:
     sel_genres = st.multiselect("Filter by Genre(s). Select the genres you want for a list of movies that are in all those genres", all_genres)
@@ -114,13 +119,18 @@ with col2:
         'ratings_count': 'No. of Ratings'
     })
 
-    header = (
+    genre_header = (
         f"Top 10 Matching: {', '.join(sel_genres)}"
         if  sel_genres else
         "Top 10 Movies - No Genre Filter Applied"
     )
-    st.subheader(header)
-    st.table(top10_genre.reset_index(drop=True).style.hide_index)
+    st.subheader(genre_header)
+    md_genre = (
+        top10_movies[['Movie Title','Genres','Average Rating']]
+        .reset_index(drop=True)
+        .to_markdown(index=False)
+    )
+    st.markdown(md_genre, unsafe_allow_html=True)
 
 # Add search box for movie title
 col1, col2 = st.columns([4, 8])

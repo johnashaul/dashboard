@@ -1,4 +1,4 @@
-pandas>=2.4.0
+pandas
 streamlit
 matplotlib
 numpy
