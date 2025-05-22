@@ -59,6 +59,10 @@ with col1:
         0, 100, 50
     )
 
+with col2:
+    # you can also put other controls here
+    selected_genres = st.multiselect("Filter by Genre(s)", all_genres)
+    
 gt_min_df = data[data['ratings_count'] >= min_ratings]
 
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
@@ -72,9 +76,6 @@ top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
 col1, col2 = st.columns(2)
 
 with col1:
-    # Put spacer to align overall table with genre table
-    st.markdown("<div style='height:5.3em'></div>", unsafe_allow_html=True)
-
     # place top 10 overall movies on left
     top10_movies = (
         gt_min_df
@@ -102,8 +103,7 @@ with col1:
     st.markdown(md_top10, unsafe_allow_html=True)
 
 with col2:
-    sel_genres = st.multiselect("Filter by Genre(s). Select the genres you want for a list of movies that are in all those genres", all_genres)
-
+    # place genre filtered list on right
     if  sel_genres:
         df_genre = gt_min_df[
             gt_min_df['genres'].apply(lambda gl: all(g in gl for g in sel_genres))
