@@ -13,6 +13,7 @@ st.markdown("""
       }
       html, body, [class*="css"]  {
         font-size: 0.8rem !important;
+        text-align: center !important;
       }
       .stApp h1 {
         font-size: 2 rem !important;
