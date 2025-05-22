@@ -71,11 +71,11 @@ with col3:
         options=all_genres, placeholder="Select one or more options to filter by genre(s)")
     
 gt_min_df = data[data['ratings_count'] >= min_ratings]
-filtered_df = data[
-    (data['ratings_count'] >= min_ratings) &
-    (data['timestamp'].dt.date >= date_range[0]) &
-    (data['timestamp'].dt.date <= date_range[1])
-]
+#filtered_df = data[
+#    (data['ratings_count'] >= min_ratings) &
+#    (data['timestamp'].dt.date >= date_range[0]) &
+#    (data['timestamp'].dt.date <= date_range[1])
+#]
 
 drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
 top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
