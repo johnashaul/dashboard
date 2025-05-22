@@ -54,16 +54,16 @@ st.title('🎬 Movie Ratings Dashboard')
 
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
 
-col1, col2 = st.columns([3, 9])
+col1, col2, col3 = st.columns([3, 3, 6])
 with col1:
     min_ratings = st.slider(
         "Minimum Number of Ratings",
         0, 100, 50
     )
 
-with col2:
+with col3:
     # you can also put other controls here
-    selected_genres = st.multiselect("Filter by Genre(s)", all_genres)
+    sel_genres = st.multiselect("Filter by Genre(s)", all_genres)
     
 gt_min_df = data[data['ratings_count'] >= min_ratings]
 
