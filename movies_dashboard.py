@@ -62,8 +62,8 @@ with col1:
     )
 
 with col3:
-    # you can also put other controls here
-    sel_genres = st.multiselect("Filter by Genre(s)", all_genres)
+    sel_genres = st.multiselect("Filter by Genre(s). Select the genres you want for a list of movies that are in all those genres",
+        options=all_genres, placeholder="Select one or more options to filter by genre(s)")
     
 gt_min_df = data[data['ratings_count'] >= min_ratings]
 
