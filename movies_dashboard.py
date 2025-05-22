@@ -31,8 +31,8 @@ st.markdown("""
     <style>
       .stMarkdown table th,
       .stMarkdown table td {
-        padding-top: 0.1rem !important;
-        padding-bottom: 0.1rem !important;
+        padding-top: 0.05rem !important;
+        padding-bottom: 0.05rem !important;
       }
     </style>
 """, unsafe_allow_html=True)
