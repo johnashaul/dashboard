@@ -63,7 +63,8 @@ with col1:
         "Minimum Number of Ratings",
         0, 100, 50
     )
-#with col2:
+with col2:
+    date_range = st.slider("Select Date Range", min_value=min_date, max_value=max_date)
 #    date_range = st.slider("Select Date Range", min_value=min_date, max_value=max_date, value=(min_date, max_date))
 
 with col3:
