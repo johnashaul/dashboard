@@ -77,11 +77,12 @@ with col1:
     )
     top10_movies['movie_avg_rating'] = top10_movies['movie_avg_rating'].round(2)
     
-    top10_movies['Genres'] = top10_movies['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl
+    top10_movies['genres'] = top10_movies['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl
 )
     top10_movies = top10_movies.rename(columns={
         'title': 'Movie Title',
         'movie_avg_rating': 'Avg Rating',
+        'genres' : 'Genres',
         'ratings_count': 'No. of Ratings'
     })
     st.subheader("Top 10 Movies Overall")
