@@ -203,9 +203,11 @@ if  search_box_text:
                 'genres': 'Genres',
                 'movie_avg_rating': 'Avg Rating'
             }).reset_index(drop=True)
-            
+
             st.subheader(f"Top 10 Recommendations for: {bm_title}")
-            md = (top10_recs[['Rank', 'Recommended Movie','Genres','Avg Rating']].reset_index(drop=True).to_markdown(index=False))
+            md = (top10_recs[['Rank', 'Recommended Movie','Genres','Avg Rating']]
+                .reset_index(drop=True)
+                .to_markdown(index=False))
             st.markdown(md, unsafe_allow_html=True)
         else:
             st.warning("No recommendations found for this movie.")
