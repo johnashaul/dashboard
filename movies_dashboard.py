@@ -197,18 +197,14 @@ if  search_box_text:
             top10_recs = top10_recs.sort_values('rank')
             top10_recs['genres'] = top10_recs['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl)
             
-            top10_recs[['rank', 'title', 'genres', 'movie_avg_rating']].rename(columns={
-                'rank': 'Rank',
-                'title': 'Recommended Movie',
-                'genres': 'Genres',
-                'movie_avg_rating': 'Avg Rating'
-            }).reset_index(drop=True)
-
-            st.subheader(f"Top 10 Recommendations for: {bm_title}")
-            md = (top10_recs[['Rank', 'Recommended Movie','Genres','Avg Rating']]
-                .reset_index(drop=True)
-                .to_markdown(index=False))
-            st.markdown(md, unsafe_allow_html=True)
+            st.table(
+                top10_recs[['rank', 'title', 'genres', 'movie_avg_rating']].rename(columns={
+                    'rank': 'Rank',
+                    'title': 'Recommended Movie',
+                    'genres': 'Genres',
+                    'movie_avg_rating': 'Avg Rating'
+                }).reset_index(drop=True)
+            )
         else:
             st.warning("No recommendations found for this movie.")
 
