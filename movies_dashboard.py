@@ -61,8 +61,6 @@ drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop
 top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
 top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
 
-data['genres'] = data['genres'].str.split('|')
-
 col1, col2 = st.columns(2)
 
 with col1:
