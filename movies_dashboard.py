@@ -54,8 +54,8 @@ st.title('🎬 Movie Ratings Dashboard')
 
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
 data['datetime'] = pd.to_datetime(data['timestamp'], unit='s')
-min_date = data['datetime'].min()
-max_date = data['datetime'].max()
+#min_date = data['datetime'].min()
+#max_date = data['datetime'].max()
 
 col1, col2, col3 = st.columns([3, 3, 6])
 with col1:
@@ -63,8 +63,8 @@ with col1:
         "Minimum Number of Ratings",
         0, 100, 50
     )
-with col2:
-    date_range = st.slider("Select Date Range", min_value=min_date, max_value=max_date, value=(min_date, max_date))
+#with col2:
+#    date_range = st.slider("Select Date Range", min_value=min_date, max_value=max_date, value=(min_date, max_date))
 
 with col3:
     sel_genres = st.multiselect("Filter by Genre(s). Select the genres you want for a list of movies that are in all those genres",
