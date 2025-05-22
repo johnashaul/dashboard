@@ -56,8 +56,8 @@ all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_l
 
 data['timestamp'] = pd.to_datetime(data['timestamp'])
 data['date_only'] = data['timestamp'].dt.date
-min_date = data['timestamp'].min()
-max_date = data['timestamp'].max()
+min_date = data['date_only'].min()
+max_date = data['date_only'].max()
 st.write('min date:', min_date)
 st.write('max date:', max_date)
 
