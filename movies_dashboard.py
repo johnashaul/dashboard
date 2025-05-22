@@ -86,8 +86,8 @@ with col1:
     )
     top10_movies['movie_avg_rating'] = top10_movies['movie_avg_rating'].round(2)
     
-    top10_movies['genres'] = top10_movies['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl
-)
+    top10_movies['genres'] = top10_movies['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl)
+    
     top10_movies = top10_movies.rename(columns={
         'title': 'Movie Title',
         'movie_avg_rating': 'Avg Rating',
@@ -195,7 +195,7 @@ if  search_box_text:
 )
             top10_recs['rank'] = top10_recs['movieId'].apply(lambda x: top10_ids.index(x) + 1)
             top10_recs = top10_recs.sort_values('rank')
-            top10_recs['genres'] = top10_recs['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl
+            top10_recs['genres'] = top10_recs['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl)
             
             top10_recs[['rank', 'title', 'genres', 'movie_avg_rating']].rename(columns={
                 'rank': 'Rank',
