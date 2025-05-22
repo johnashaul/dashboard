@@ -15,7 +15,7 @@ st.markdown("""
         font-size: 0.8rem !important;
       }
       .stApp h1 {
-        font-size: 1.3rem !important;
+        font-size: 2 rem !important;
       }
       .stApp h2 {
         font-size: 1.1rem !important;
