@@ -76,6 +76,9 @@ with col1:
           .head(10)
     )
     top10_movies['movie_avg_rating'] = top10_movies['movie_avg_rating'].round(2)
+    
+    top10_movies['Genres'] = top10_movies['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl
+)
     top10_movies = top10_movies.rename(columns={
         'title': 'Movie Title',
         'movie_avg_rating': 'Avg Rating',
@@ -169,14 +172,14 @@ if  search_box_text:
 
         if not rec_row.empty:
             top10_ids = rec_row.iloc[0, 1:11].tolist()
-            top10_movies = (data[data['movieId'].isin(top10_ids)][['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates(subset=['movieId'])
+            top10_recs = (data[data['movieId'].isin(top10_ids)][['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates(subset=['movieId'])
 )
-            top10_movies['rank'] = top10_movies['movieId'].apply(lambda x: top10_ids.index(x) + 1)
-            top10_movies = top10_movies.sort_values('rank')
+            top10_recs['rank'] = top10_recs['movieId'].apply(lambda x: top10_ids.index(x) + 1)
+            top10_recs = top10_recs.sort_values('rank')
 
             st.subheader(f"Top 10 Recommendations for: {bm_title}")
             st.table(
-                top10_movies[['rank', 'title', 'genres', 'movie_avg_rating']].rename(columns={
+                top10_recs[['rank', 'title', 'genres', 'movie_avg_rating']].rename(columns={
                     'rank': 'Rank',
                     'title': 'Recommended Movie',
                     'genres': 'Genres',
