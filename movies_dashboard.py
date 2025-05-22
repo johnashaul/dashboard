@@ -83,11 +83,11 @@ with col1:
         'title': 'Movie Title',
         'movie_avg_rating': 'Avg Rating',
         'genres' : 'Genres',
-        'ratings_count': 'No. of Ratings'
+        'ratings_count': 'No of Ratings'
     })
     st.subheader("Top 10 Movies Overall")
     md_top10 = (
-        top10_movies[['Movie Title','Genres','Average Rating']]
+        top10_movies[['Movie Title','Genres','Average Rating', 'No of Ratings']]
         .reset_index(drop=True)
         .to_markdown(index=False)
     )
@@ -116,7 +116,7 @@ with col2:
         'title': 'Movie Title',
         'genres': 'Genres',
         'movie_avg_rating': 'Avg Rating',
-        'ratings_count': 'No. of Ratings'
+        'ratings_count': 'No of Ratings'
     })
 
     genre_header = (
@@ -126,7 +126,7 @@ with col2:
     )
     st.subheader(genre_header)
     md_genre = (
-        top10_movies[['Movie Title','Genres','Average Rating']]
+        top10_genre[['Movie Title','Genres','Average Rating', 'No of Ratings']]
         .reset_index(drop=True)
         .to_markdown(index=False)
     )
