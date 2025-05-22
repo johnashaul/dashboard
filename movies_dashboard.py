@@ -28,6 +28,13 @@ st.markdown("""
         font-size: 0.7rem !important;
       }
     </style>
+    <style>
+      .stMarkdown table th,
+      .stMarkdown table td {
+        padding-top: 0.1rem !important;
+        padding-bottom: 0.1rem !important;
+      }
+    </style>
 """, unsafe_allow_html=True)
 
 @st.cache_data
