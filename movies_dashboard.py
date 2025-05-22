@@ -156,7 +156,7 @@ if  search_box_text:
         # Plot histogram of ratings
         with col_hist:
             st.subheader(f"Ratings for {bm_title}")
-            fig, ax = plt.subplots(figsize=(4, 0.8))
+            fig, ax = plt.subplots(figsize=(4, 0.8 nm,nm))
             ax.hist(movie_ratings, bins=5, edgecolor='black')
             ax.set_ylabel('Count', fontsize=6)
             ax.tick_params(axis='x', labelsize=4)
@@ -170,7 +170,8 @@ if  search_box_text:
 
         if not rec_row.empty:
             top10_ids = rec_row.iloc[0, 1:11].tolist()
-            top10_movies = data[data['movieId'].isin(top10_ids)][['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates()
+            top10_movies = (data[data['movieId'].isin(top10_ids)][['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates(subset=['movieId'])
+)
             top10_movies['rank'] = top10_movies['movieId'].apply(lambda x: top10_ids.index(x) + 1)
             top10_movies = top10_movies.sort_values('rank')
 
