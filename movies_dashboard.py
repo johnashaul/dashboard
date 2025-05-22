@@ -86,10 +86,10 @@ with col1:
         'ratings_count': 'No. of Ratings'
     })
     st.subheader("Top 10 Movies Overall")
-    st.table(top10_movies.reset_index(drop=True))
+    st.table(top10_movies.reset_index(drop=True).style.hide_index)
 
 with col2:
-    sel_genres = st.multiselect("Filter by Genre(s)", all_genres)
+    sel_genres = st.multiselect("Filter by Genre(s). Select the genres you want for a list of movies that are in all those genres", all_genres)
 
     if  sel_genres:
         df_genre = gt_min_df[
@@ -120,7 +120,7 @@ with col2:
         "Top 10 Movies - No Genre Filter Applied"
     )
     st.subheader(header)
-    st.table(top10_genre.reset_index(drop=True))
+    st.table(top10_genre.reset_index(drop=True).style.hide_index)
 
 # Add search box for movie title
 col1, col2 = st.columns([4, 8])
