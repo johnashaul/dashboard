@@ -87,7 +87,7 @@ with col1:
     })
     st.subheader("Top 10 Movies Overall")
     md_top10 = (
-        top10_movies[['Movie Title','Genres','Average Rating', 'No of Ratings']]
+        top10_movies[['Movie Title','Genres','Avg Rating', 'No of Ratings']]
         .reset_index(drop=True)
         .to_markdown(index=False)
     )
@@ -126,7 +126,7 @@ with col2:
     )
     st.subheader(genre_header)
     md_genre = (
-        top10_genre[['Movie Title','Genres','Average Rating', 'No of Ratings']]
+        top10_genre[['Movie Title','Genres','Avg Rating', 'No of Ratings']]
         .reset_index(drop=True)
         .to_markdown(index=False)
     )
@@ -194,7 +194,7 @@ if  search_box_text:
                     'rank': 'Rank',
                     'title': 'Recommended Movie',
                     'genres': 'Genres',
-                    'movie_avg_rating': 'Average Rating'
+                    'movie_avg_rating': 'Avg Rating'
                 }).reset_index(drop=True)
             )
         else:
