@@ -54,8 +54,8 @@ st.title('🎬 Movie Ratings Dashboard')
 
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
 data['datetime'] = pd.to_datetime(data['timestamp'], unit='s')
-#min_date = data['datetime'].min()
-#max_date = data['datetime'].max()
+min_date = data['datetime'].min()
+max_date = data['datetime'].max()
 
 col1, col2, col3 = st.columns([3, 3, 6])
 with col1:
