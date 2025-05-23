@@ -84,11 +84,7 @@ with col3:
         options=all_genres, placeholder="Select one or more options to filter by genre(s)")
     
 gt_min_df = data[data['ratings_count'] >= min_ratings]
-#filtered_df = data[
-#    (data['ratings_count'] >= min_ratings) &
-#    (data['timestamp'].dt.date >= date_range[0]) &
-#    (data['timestamp'].dt.date <= date_range[1])
-#]
+filtered_df = data[(data['ratings_count'] >= min_ratings) &(data['timestamp'] >= date_range[0]) & (data['timestamp'] <= date_range[1])]
 
 drop_dups = data[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
 top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
@@ -99,7 +95,7 @@ col1, col2 = st.columns(2)
 with col1:
     # place top 10 overall movies on left
     top10_movies = (
-        gt_min_df
+        filtered_df
           .drop_duplicates(subset=['movieId'])
           [['title', 'genres', 'movie_avg_rating', 'ratings_count']]
           .sort_values(by='movie_avg_rating', ascending=False)
@@ -126,11 +122,11 @@ with col1:
 with col2:
     # place genre filtered list on right
     if  sel_genres:
-        df_genre = gt_min_df[
-            gt_min_df['genres'].apply(lambda gl: all(g in gl for g in sel_genres))
+        df_genre = filtered_df[
+            filtered_df['genres'].apply(lambda gl: all(g in gl for g in sel_genres))
         ]
     else:
-        df_genre = gt_min_df
+        df_genre = filtered_df
 
     top10_genre = (
         df_genre
@@ -212,7 +208,7 @@ if  search_box_text:
 
         if not rec_row.empty:
             top10_ids = rec_row.iloc[0, 1:11].tolist()
-            top10_recs = (data[data['movieId'].isin(top10_ids)][['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates(subset=['movieId'])
+            top10_recs = (filtered_df[filtered_df['movieId'].isin(top10_ids)][['movieId', 'title', 'genres', 'movie_avg_rating']].drop_duplicates(subset=['movieId'])
 )
             top10_recs['rank'] = top10_recs['movieId'].apply(lambda x: top10_ids.index(x) + 1)
             top10_recs = top10_recs.sort_values('rank')
