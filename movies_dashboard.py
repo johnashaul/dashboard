@@ -59,8 +59,6 @@ data['timestamp'] = pd.to_datetime(data['timestamp'], unit='s')
 data['date_only'] = data['timestamp'].dt.date
 min_date = data['date_only'].min()
 max_date = data['date_only'].max()
-st.write('min date:', min_date)
-st.write('max date:', max_date)
 
 col1, col2, col3 = st.columns([3, 3, 6])
 with col1:
