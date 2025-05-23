@@ -55,11 +55,9 @@ st.title('🎬 Movie Ratings Dashboard')
 all_genres = sorted(set(g for genre_list in data['genres'] if isinstance(genre_list, list) for g in genre_list))
 
 st.write(data['timestamp'].head(10))
-st.write(data['timestamp'].unique())
 
 data['timestamp'] = pd.to_datetime(data['timestamp'], unit='s')
 st.write(data['timestamp'].head(10))
-st.write(data['timestamp'].unique())
 
 
 data['date_only'] = data['timestamp'].dt.date
