@@ -79,8 +79,8 @@ with col3:
     
 gt_min_df = data[data['ratings_count'] >= min_ratings]
 filtered_df = data[(data['ratings_count'] >= min_ratings) &(data['date_only'] >= date_range[0]) & (data['date_only'] <= date_range[1])]
-filtered_df['filt_avg_rat'] = filtered_df.groupby('movie_id')['rating'].transform('mean')
-filtered_df['filt_rat_cnt'] = filtered_df.groupby('movie_id')['rating'].transform('count')
+filtered_df['filt_avg_rat'] = filtered_df.groupby('movieId')['rating'].transform('mean')
+filtered_df['filt_rat_cnt'] = filtered_df.groupby('movieId')['rating'].transform('count')
 
 
 drop_dups = filtered_df[['movieId', 'title', 'movie_avg_rating', 'ratings_count', 'filt_avg_rat', 'filt_rat_cnt']].drop_duplicates()
