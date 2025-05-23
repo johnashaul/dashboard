@@ -63,11 +63,11 @@ max_date = data['date_only'].max()
 col1, col2, col3 = st.columns([3, 3, 6])
 with col1:
     min_ratings = st.slider(
-        "Minimum Number of Ratings",
+        "Select Minimum Number of Ratings to Include Movies",
         0, 100, 50
     )
 with col2:
-    date_range = st.slider("Select Date Range",
+    date_range = st.slider("Select Date Range of Ratings to Include",
     min_value=min_date,
     max_value=max_date,
     value=(min_date, max_date)
@@ -79,10 +79,13 @@ with col3:
     
 gt_min_df = data[data['ratings_count'] >= min_ratings]
 filtered_df = data[(data['ratings_count'] >= min_ratings) &(data['date_only'] >= date_range[0]) & (data['date_only'] <= date_range[1])]
+filtered_df['filt_avg_rat'] = filtered_df.groupby('movie_id')['rating'].transform('mean')
+filtered_df['filt_rat_cnt'] = filtered_df.groupby('movie_id')['rating'].transform('count')
 
-drop_dups = filtered_df[['movieId', 'title', 'movie_avg_rating', 'ratings_count']].drop_duplicates()
-top_10_movies = drop_dups.sort_values(by='movie_avg_rating', ascending=False).head(10)
-top_10_movies['movie_avg_rating'] = top_10_movies['movie_avg_rating'].round(2)
+
+drop_dups = filtered_df[['movieId', 'title', 'movie_avg_rating', 'ratings_count', 'filt_avg_rat', 'filt_rat_cnt']].drop_duplicates()
+top_10_movies = drop_dups.sort_values(by='filt_avg_rat', ascending=False).head(10)
+top_10_movies['filt_avg_rat'] = top_10_movies['filt_avg_rat'].round(2)
 
 col1, col2 = st.columns(2)
 
@@ -91,23 +94,22 @@ with col1:
     top10_movies = (
         filtered_df
           .drop_duplicates(subset=['movieId'])
-          [['title', 'genres', 'movie_avg_rating', 'ratings_count']]
+          [['title', 'genres', 'movie_avg_rating', 'ratings_count', 'filt_avg_rat', 'filt_rat_cnt']]
           .sort_values(by='movie_avg_rating', ascending=False)
           .head(10)
     )
-    top10_movies['movie_avg_rating'] = top10_movies['movie_avg_rating'].round(2)
-    
+ 
     top10_movies['genres'] = top10_movies['genres'].apply(lambda gl: ', '.join(gl) if isinstance(gl, list) else gl)
     
     top10_movies = top10_movies.rename(columns={
         'title': 'Movie Title',
-        'movie_avg_rating': 'Avg Rating',
+        'filt_avg_rat': 'Avg Rating',
         'genres' : 'Genres',
-        'ratings_count': 'No of Ratings'
+        'filt_rat_cnt': 'No of Ratings'
     })
     st.subheader("Top 10 Movies Overall")
     md_top10 = (
-        top10_movies[['Movie Title','Genres','Avg Rating', 'No of Ratings']]
+        top10_movies[['Movie Title','Genres','Avg Rating', 'No of Ratings', 'filt_avg_rat', 'filt_rat_cnt']]
         .reset_index(drop=True)
         .to_markdown(index=False)
     )
@@ -125,17 +127,17 @@ with col2:
     top10_genre = (
         df_genre
           .drop_duplicates(subset=['movieId'])
-          [['title', 'genres', 'movie_avg_rating', 'ratings_count']]
+          [['title', 'genres', 'movie_avg_rating', 'ratings_count', 'filt_avg_rat', 'filt_rat_cnt']]
           .sort_values(by='movie_avg_rating', ascending=False)
           .head(10)
     )
-    top10_genre['movie_avg_rating'] = top10_genre['movie_avg_rating'].round(2)
+    top10_genre['filt_avg_rat'] = top10_genre['filt_avg_rat'].round(2)
     top10_genre['genres'] = top10_genre['genres'].apply(lambda gl: ', '.join(gl))
     top10_genre = top10_genre.rename(columns={
         'title': 'Movie Title',
         'genres': 'Genres',
-        'movie_avg_rating': 'Avg Rating',
-        'ratings_count': 'No of Ratings'
+        'filt_avg_rat': 'Avg Rating',
+        'filt_rat_cnt': 'No of Ratings'
     })
 
     genre_header = (
@@ -145,7 +147,7 @@ with col2:
     )
     st.subheader(genre_header)
     md_genre = (
-        top10_genre[['Movie Title','Genres','Avg Rating', 'No of Ratings']]
+        top10_genre[['Movie Title','Genres','Avg Rating', 'No of Ratings', 'filt_avg_rat', 'filt_rat_cnt']]
         .reset_index(drop=True)
         .to_markdown(index=False)
     )
