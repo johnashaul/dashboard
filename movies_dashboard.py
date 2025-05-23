@@ -73,8 +73,11 @@ with col1:
         0, 100, 50
     )
 with col2:
-    date_range = st.slider("Select Date Range", min_value=min_date, max_value=max_date)
-#    date_range = st.slider("Select Date Range", min_value=min_date, max_value=max_date, value=(min_date, max_date))
+    date_range = st.slider("Select Date Range",
+    min_value=min_date,
+    max_value=max_date,
+    value=(min_date, max_date)
+)
 
 with col3:
     sel_genres = st.multiselect("Filter by Genre(s). Select the genres you want for a list of movies that are in all those genres",
