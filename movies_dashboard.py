@@ -156,7 +156,7 @@ with col2:
 # Add search box for movie title
 col1, col2 = st.columns([4, 8])
 with col1:
-    search_box_text = st.text_input('Please enter a movie title to get statistics and recommendations')
+    search_box_text = st.text_input('Please enter a movie title in the search box to get statistics and recommendations')
 
 if  search_box_text:
     found = data[data['title'].str.contains(search_box_text, case=False, na=False)]
